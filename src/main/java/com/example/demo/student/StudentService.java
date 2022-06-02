@@ -3,6 +3,8 @@ package com.example.demo.student;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.demo.model.Student;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +25,7 @@ public class StudentService {
   }
 
   public Student addStudent(Student student){
-    Optional <Student> studentOptional = studentRepository.findStudentByNama(student.getEmail());
+    Optional <Student> studentOptional = studentRepository.findStudentByEmail(student.getEmail());
     if(studentOptional.isPresent()) throw new IllegalStateException("Email Taken");
     return studentRepository.save(student);
   }

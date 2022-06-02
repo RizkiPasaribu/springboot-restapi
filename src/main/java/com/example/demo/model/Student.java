@@ -1,17 +1,24 @@
-package com.example.demo.student;
+package com.example.demo.model;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity // This tells Hibernate to make a table out of this class
+@Table(name="tbl_student")
 public class Student {
   
   // anotasi @id menandakam primari key adalah colom id dan anotasi generatedvalue menandakan id akan di generate secara ber urutan 
@@ -31,10 +38,21 @@ public class Student {
   @NotNull(message = "DOB Is Required")
   private LocalDate dob;
 
+  // relationship dengan tabeldosen
+  @ManyToOne
+  private Dosenpem dosen_pembimbing;
+
+  @ManyToMany
+  @JoinTable(
+    name = "tbl_ambil_matakuliah",
+    joinColumns = @JoinColumn(name="student_id"),
+    inverseJoinColumns = @JoinColumn(name="matakuliah_id")
+  )
+  Set<Matakuliah> matakuliah;
+
   // Anotasi Transient ini berguna agar data tidak disimpan di database
   @Transient
   private Integer age;
-
 
   public Student() {
   }
