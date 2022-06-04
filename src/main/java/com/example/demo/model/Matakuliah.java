@@ -13,13 +13,16 @@ import javax.persistence.Table;
 @Table(name = "tbl_matakuliah")
 public class Matakuliah {
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long Id;
   private String Matkul;
 
   @ManyToMany(mappedBy = "matakuliah")
   Set<Student> student;
 
+  public Matakuliah() {
+  }
+  
   public Long getId() {
     return Id;
   }

@@ -1,4 +1,4 @@
-package com.example.demo.student;
+package com.example.demo.repos;
 
 import java.util.Optional;
 

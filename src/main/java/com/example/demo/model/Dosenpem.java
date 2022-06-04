@@ -10,11 +10,19 @@ import javax.persistence.Id;
 @Table(name = "tbl_dosen")
 public class Dosenpem {
   @Id
-  @GeneratedValue(strategy=GenerationType.SEQUENCE)
+  @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
   
 	private String nama;
 	private String alamat;
+
+  public Dosenpem() {
+  }
+
+  public Dosenpem(String nama, String alamat) {
+    this.nama = nama;
+    this.alamat = alamat;
+  }
 
   public Long getId() {
     return id;

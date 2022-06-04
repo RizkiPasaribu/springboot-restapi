@@ -5,6 +5,7 @@ import java.time.Period;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,7 +24,7 @@ public class Student {
   
   // anotasi @id menandakam primari key adalah colom id dan anotasi generatedvalue menandakan id akan di generate secara ber urutan 
   @Id
-  @GeneratedValue(strategy=GenerationType.SEQUENCE)
+  @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
   
   @NotEmpty(message = "nama is required")
@@ -39,7 +40,8 @@ public class Student {
   private LocalDate dob;
 
   // relationship dengan tabeldosen
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "tbl_student_id")
   private Dosenpem dosen_pembimbing;
 
   @ManyToMany
@@ -57,20 +59,58 @@ public class Student {
   public Student() {
   }
 
-  public Student(String nama, String email, String alamat, LocalDate dob) {
-    this.nama = nama;
-    this.email = email;
-    this.alamat = alamat;
-    this.dob = dob;
-  }
   
-  public Student(Long id, String nama, String email, String alamat, LocalDate dob) {
-    this.id = id;
+
+  // public Student(String nama, String email, String alamat, LocalDate dob) {
+  //   this.nama = nama;
+  //   this.email = email;
+  //   this.alamat = alamat;
+  //   this.dob = dob;
+  // }
+
+  
+  
+  // public Student(Long id, String nama, String email, String alamat, LocalDate dob) {
+  //   this.id = id;
+  //   this.nama = nama;
+  //   this.email = email;
+  //   this.alamat = alamat;
+  //   this.dob = dob;
+  // } 
+
+  public Student(String nama,String email, String alamat, LocalDate dob, Dosenpem dosen_pembimbing, Set<Matakuliah> matakuliah) {
     this.nama = nama;
     this.email = email;
     this.alamat = alamat;
     this.dob = dob;
-  } 
+    this.dosen_pembimbing = dosen_pembimbing;
+    this.matakuliah = matakuliah;
+  }
+
+  public Student(String nama,String email, String alamat,LocalDate dob, Dosenpem dosen_pembimbing) {
+    this.nama = nama;
+    this.email = email;
+    this.alamat = alamat;
+    this.dob = dob;
+    this.dosen_pembimbing = dosen_pembimbing;
+  }
+
+
+  public Dosenpem getDosen_pembimbing() {
+    return dosen_pembimbing;
+  }
+
+  public void setDosen_pembimbing(Dosenpem dosen_pembimbing) {
+    this.dosen_pembimbing = dosen_pembimbing;
+  }
+
+  public Set<Matakuliah> getMatakuliah() {
+    return matakuliah;
+  }
+
+  public void setMatakuliah(Set<Matakuliah> matakuliah) {
+    this.matakuliah = matakuliah;
+  }
 
   public String getEmail() {
     return email;

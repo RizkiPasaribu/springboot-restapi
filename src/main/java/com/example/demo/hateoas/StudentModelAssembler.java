@@ -1,7 +1,8 @@
-package com.example.demo.student;
+package com.example.demo.hateoas;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
+import com.example.demo.controllers.StudentController;
 import com.example.demo.model.Student;
 
 import org.springframework.hateoas.EntityModel;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StudentModelAssembler implements RepresentationModelAssembler<Student, EntityModel<Student>> {
-  
   @Override
   public EntityModel<Student> toModel (Student student){
     return EntityModel.of(student,

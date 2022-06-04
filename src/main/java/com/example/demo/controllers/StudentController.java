@@ -1,11 +1,14 @@
-package com.example.demo.student;
+package com.example.demo.controllers;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import com.example.demo.dto.ResponseData;
+import com.example.demo.hateoas.StudentModelAssembler;
 import com.example.demo.model.Student;
+import com.example.demo.services.StudentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
@@ -21,11 +24,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
+
+// anotasi requets mapping bertujuan agar mengelompokan routing
 @RestController
+@RequestMapping("/student")
 public class StudentController {
   private final StudentService studentService;
   private final StudentModelAssembler studentModelAssembler;
@@ -41,22 +48,22 @@ public class StudentController {
   }
 
   // get all student 
-  @GetMapping("/")
-  CollectionModel<EntityModel<Student>> all() {
+  @GetMapping()
+  public CollectionModel<EntityModel<Student>> all() {
     List<EntityModel<Student>> students = studentService.getStudent().stream()
       .map(studentModelAssembler::toModel).collect(Collectors.toList());
     return CollectionModel.of(students, linkTo(methodOn(StudentController.class).all()).withSelfRel());
   }
 
   // get student by id
-  @GetMapping("/student/{id}")
+  @GetMapping("/{id}")
   public EntityModel<Student> one(@PathVariable Long id) {
     Student student = studentService.findStudent(id);
     return studentModelAssembler.toModel(student);
   }
 
   // edit student
-  @PutMapping("/student/{id}")
+  @PutMapping("/{id}")
   public ResponseEntity<ResponseData<Student>> edit(@Validated @RequestBody Student student, @PathVariable Long id, Errors errors ) {
     ResponseData<Student> responseData = new ResponseData<Student>();
 
@@ -76,14 +83,14 @@ public class StudentController {
   }
 
   // delete student by id
-  @DeleteMapping("/student/{id}")
+  @DeleteMapping("/{id}")
   public ResponseEntity<?> deleteOne(@PathVariable Long id) {
     studentService.deleteOne(id);
     return ResponseEntity.status(HttpStatus.OK).body("Data Has Been Deleted"); 
   }
 
   // add new student if email not exist
-  @PostMapping("/student")
+  @PostMapping("/add")
   public ResponseEntity<ResponseData<Student>> addNewStudent(@Valid @RequestBody Student newStudent, Errors errors) {
 
     ResponseData<Student> responseData = new ResponseData<Student>();

@@ -1,12 +1,14 @@
-package com.example.demo.student;
+package com.example.demo.services;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.example.demo.model.Student;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.example.demo.Exceptions.NotFoundExceptionById;
+import com.example.demo.model.Student;
+import com.example.demo.repos.StudentRepository;
 
 
 // anotasi @Service berguna untuk memberitahu bahwa class StudentService ini adalah Service sehingga dapat di autowired oleh Student controller
@@ -31,7 +33,7 @@ public class StudentService {
   }
 
   public Student findStudent(Long id){
-    return studentRepository.findById(id).orElseThrow(()->new StudentNotFoundException(id));
+    return studentRepository.findById(id).orElseThrow(()->new NotFoundExceptionById(id, "Student"));
   }
 
   @Transactional
@@ -44,12 +46,12 @@ public class StudentService {
         studentt.setDob(student.getDob());
         return studentRepository.save(studentt);
       })
-      .orElseThrow(()->new StudentNotFoundException(id));
+      .orElseThrow(()->new NotFoundExceptionById(id, "Student"));
   }
 
   public void deleteOne(Long id){
     boolean exist = studentRepository.existsById(id);
-    if(!exist) throw new StudentNotFoundException(id);
+    if(!exist) throw new NotFoundExceptionById(id, "Student");
     studentRepository.deleteById(id);
   }
 }
