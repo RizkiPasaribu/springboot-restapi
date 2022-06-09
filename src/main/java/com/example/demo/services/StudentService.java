@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.Exceptions.NotFoundExceptionById;
+import com.example.demo.Exceptions.CostomException;
 import com.example.demo.model.Student;
 import com.example.demo.repos.StudentRepository;
 
@@ -28,12 +28,12 @@ public class StudentService {
 
   public Student addStudent(Student student){
     Optional <Student> studentOptional = studentRepository.findStudentByEmail(student.getEmail());
-    if(studentOptional.isPresent()) throw new IllegalStateException("Email Taken");
+    if(studentOptional.isPresent()) throw new CostomException("Email Taken");
     return studentRepository.save(student);
   }
 
   public Student findStudent(Long id){
-    return studentRepository.findById(id).orElseThrow(()->new NotFoundExceptionById(id, "Student"));
+    return studentRepository.findById(id).orElseThrow(()->new CostomException(id, "Student"));
   }
 
   @Transactional
@@ -44,14 +44,16 @@ public class StudentService {
         studentt.setEmail(student.getEmail());
         studentt.setAlamat(student.getAlamat());
         studentt.setDob(student.getDob());
+        studentt.setDosen_pembimbing(student.getDosen_pembimbing());
+        studentt.setMatakuliah(student.getMatakuliah());
         return studentRepository.save(studentt);
       })
-      .orElseThrow(()->new NotFoundExceptionById(id, "Student"));
+      .orElseThrow(()->new CostomException(id, "Student"));
   }
 
   public void deleteOne(Long id){
     boolean exist = studentRepository.existsById(id);
-    if(!exist) throw new NotFoundExceptionById(id, "Student");
+    if(!exist) throw new CostomException(id, "Student");
     studentRepository.deleteById(id);
   }
 }

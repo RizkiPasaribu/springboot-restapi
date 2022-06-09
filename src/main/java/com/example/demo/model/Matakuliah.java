@@ -23,6 +23,10 @@ public class Matakuliah {
   public Matakuliah() {
   }
   
+  public Matakuliah(String Matkul) {
+    this.Matkul = Matkul;
+  }
+
   public Long getId() {
     return Id;
   }
@@ -34,5 +38,47 @@ public class Matakuliah {
   }
   public void setMatkul(String matkul) {
     Matkul = matkul;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((Id == null) ? 0 : Id.hashCode());
+    result = prime * result + ((Matkul == null) ? 0 : Matkul.hashCode());
+    result = prime * result + ((student == null) ? 0 : student.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Matakuliah other = (Matakuliah) obj;
+    if (Id == null) {
+      if (other.Id != null)
+        return false;
+    } else if (!Id.equals(other.Id))
+      return false;
+    if (Matkul == null) {
+      if (other.Matkul != null)
+        return false;
+    } else if (!Matkul.equals(other.Matkul))
+      return false;
+    if (student == null) {
+      if (other.student != null)
+        return false;
+    } else if (!student.equals(other.student))
+      return false;
+    return true;
+  }
+
+  @Override
+  public String toString() {
+    return "Matakuliah [Id=" + Id + ", Matkul=" + Matkul + ", student=" + student + "]";
   }
 }

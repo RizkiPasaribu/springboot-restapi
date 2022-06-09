@@ -59,25 +59,6 @@ public class Student {
   public Student() {
   }
 
-  
-
-  // public Student(String nama, String email, String alamat, LocalDate dob) {
-  //   this.nama = nama;
-  //   this.email = email;
-  //   this.alamat = alamat;
-  //   this.dob = dob;
-  // }
-
-  
-  
-  // public Student(Long id, String nama, String email, String alamat, LocalDate dob) {
-  //   this.id = id;
-  //   this.nama = nama;
-  //   this.email = email;
-  //   this.alamat = alamat;
-  //   this.dob = dob;
-  // } 
-
   public Student(String nama,String email, String alamat, LocalDate dob, Dosenpem dosen_pembimbing, Set<Matakuliah> matakuliah) {
     this.nama = nama;
     this.email = email;
@@ -161,7 +142,9 @@ public class Student {
     int result = 1;
     result = prime * result + ((alamat == null) ? 0 : alamat.hashCode());
     result = prime * result + ((dob == null) ? 0 : dob.hashCode());
+    result = prime * result + ((dosen_pembimbing == null) ? 0 : dosen_pembimbing.hashCode());
     result = prime * result + ((email == null) ? 0 : email.hashCode());
+    result = prime * result + ((id == null) ? 0 : id.hashCode());
     result = prime * result + ((nama == null) ? 0 : nama.hashCode());
     return result;
   }
@@ -185,10 +168,20 @@ public class Student {
         return false;
     } else if (!dob.equals(other.dob))
       return false;
+    if (dosen_pembimbing == null) {
+      if (other.dosen_pembimbing != null)
+        return false;
+    } else if (!dosen_pembimbing.equals(other.dosen_pembimbing))
+      return false;
     if (email == null) {
       if (other.email != null)
         return false;
     } else if (!email.equals(other.email))
+      return false;
+    if (id == null) {
+      if (other.id != null)
+        return false;
+    } else if (!id.equals(other.id))
       return false;
     if (nama == null) {
       if (other.nama != null)
@@ -200,7 +193,7 @@ public class Student {
 
   @Override
   public String toString() {
-    return "Student [age=" + age + ", alamat=" + alamat + ", dob=" + dob + ", email=" + email + ", id=" + id + ", nama="
-        + nama + "]";
+    return "Student [age=" + age + ", alamat=" + alamat + ", dob=" + dob + ", dosen_pembimbing=" + dosen_pembimbing
+        + ", email=" + email + ", id=" + id + ", matakuliah=" + matakuliah + ", nama=" + nama + "]";
   }
 }

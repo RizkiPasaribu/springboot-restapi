@@ -2,9 +2,11 @@ package com.example.demo.services;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Exceptions.NotFoundExceptionById;
+import com.example.demo.Exceptions.CostomException;
 import com.example.demo.model.Dosenpem;
 import com.example.demo.repos.DosenpemRepository;
 
@@ -25,12 +27,23 @@ public class DosenpemService {
   }
 
   public Dosenpem findOne(Long id){
-    return dosenRepo.findById(id).orElseThrow(()->new NotFoundExceptionById(id, "Dosen"));
+    return dosenRepo.findById(id).orElseThrow(()->new CostomException(id, "Dosen"));
+  }
+
+  @Transactional
+  public Dosenpem editDosen(Dosenpem dosen, Long id){
+    return dosenRepo.findById(id)
+      .map(dosenn -> {
+        dosenn.setAlamat(dosen.getAlamat());
+        dosenn.setNama(dosen.getNama());
+        return dosenRepo.save(dosenn);
+      })
+      .orElseThrow(()->new CostomException(id, "Dosen"));
   }
 
   public void deleteOne(Long id){
     boolean exist = dosenRepo.existsById(id);
-    if(!exist) throw new NotFoundExceptionById(id, "Dosen");
+    if(!exist) throw new CostomException(id, "Dosen");
     dosenRepo.deleteById(id);
   }
 }

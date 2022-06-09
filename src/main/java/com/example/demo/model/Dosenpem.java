@@ -37,10 +37,43 @@ public class Dosenpem {
   public void setNama(String nama) {
     this.nama = nama;
   }
+
   public String getAlamat() {
     return alamat;
   }
   public void setAlamat(String alamat) {
     this.alamat = alamat;
   }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((alamat == null) ? 0 : alamat.hashCode());
+    result = prime * result + ((nama == null) ? 0 : nama.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Dosenpem other = (Dosenpem) obj;
+    if (alamat == null) {
+      if (other.alamat != null)
+        return false;
+    } else if (!alamat.equals(other.alamat))
+      return false;
+    if (nama == null) {
+      if (other.nama != null)
+        return false;
+    } else if (!nama.equals(other.nama))
+      return false;
+    return true;
+  } 
 }
+
