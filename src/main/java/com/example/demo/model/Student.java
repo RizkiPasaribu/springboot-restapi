@@ -18,6 +18,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name="tbl_student")
 public class Student {
@@ -44,7 +45,7 @@ public class Student {
   @JoinColumn(name = "tbl_student_id")
   private Dosenpem dosen_pembimbing;
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
     name = "tbl_ambil_matakuliah",
     joinColumns = @JoinColumn(name="student_id"),

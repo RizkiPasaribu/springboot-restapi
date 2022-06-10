@@ -3,11 +3,13 @@ package com.example.demo.model;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name = "tbl_matakuliah")
@@ -17,7 +19,7 @@ public class Matakuliah {
   private Long Id;
   private String Matkul;
 
-  @ManyToMany(mappedBy = "matakuliah")
+  @ManyToMany(mappedBy = "matakuliah", fetch = FetchType.EAGER)
   Set<Student> student;
 
   public Matakuliah() {
@@ -46,7 +48,6 @@ public class Matakuliah {
     int result = 1;
     result = prime * result + ((Id == null) ? 0 : Id.hashCode());
     result = prime * result + ((Matkul == null) ? 0 : Matkul.hashCode());
-    result = prime * result + ((student == null) ? 0 : student.hashCode());
     return result;
   }
 
@@ -69,16 +70,11 @@ public class Matakuliah {
         return false;
     } else if (!Matkul.equals(other.Matkul))
       return false;
-    if (student == null) {
-      if (other.student != null)
-        return false;
-    } else if (!student.equals(other.student))
-      return false;
     return true;
   }
 
   @Override
   public String toString() {
-    return "Matakuliah [Id=" + Id + ", Matkul=" + Matkul + ", student=" + student + "]";
+    return "Matakuliah [Id=" + Id + ", Matkul=" + Matkul + "]";
   }
 }

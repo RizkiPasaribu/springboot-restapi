@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.Exceptions.CostomException;
+import com.example.demo.model.Matakuliah;
 import com.example.demo.model.Student;
 import com.example.demo.repos.StudentRepository;
+
 
 
 // anotasi @Service berguna untuk memberitahu bahwa class StudentService ini adalah Service sehingga dapat di autowired oleh Student controller
@@ -16,10 +18,12 @@ import com.example.demo.repos.StudentRepository;
 @Service
 public class StudentService {
   private final StudentRepository studentRepository;
+  private final MatakuliahService matakuliahService;
 
   // dependency injeksi dengan constructor
-  public StudentService(StudentRepository studentRepository){
+  public StudentService(StudentRepository studentRepository,MatakuliahService matakuliahService){
     this.studentRepository = studentRepository;
+    this.matakuliahService = matakuliahService;
   }
 
   public List<Student> getStudent(){
@@ -55,5 +59,14 @@ public class StudentService {
     boolean exist = studentRepository.existsById(id);
     if(!exist) throw new CostomException(id, "Student");
     studentRepository.deleteById(id);
+  }
+
+  public List<Student> findMatakuliah(Long matkulId){
+    Matakuliah matakuliah = matakuliahService.findOne(matkulId);
+    System.out.println(matakuliah);
+    if(matakuliah == null){
+      throw new CostomException("matakuliah");
+    }
+    return studentRepository.findStudetByMatakuliah(matakuliah);
   }
 }

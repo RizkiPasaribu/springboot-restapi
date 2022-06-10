@@ -109,4 +109,9 @@ public class StudentController {
     responseData.setPayload(studentService.addStudent(newStudent));
     return ResponseEntity.status(HttpStatus.OK).body(responseData);
   }
+
+  @GetMapping("/search/matkul/{id}")
+  public List<Student> searchStudentByMatkul(@PathVariable Long id) {
+    return studentService.findMatakuliah(id);
+  } 
 }
