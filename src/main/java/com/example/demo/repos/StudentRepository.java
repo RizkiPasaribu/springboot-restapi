@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 public interface StudentRepository extends JpaRepository<Student, Long> {
   Optional<Student> findStudentByEmail(String email);
 
-  // custom query untuk lebih detail liat di spring data jpa docs
+  // custom query untuk lebih detail liat di spring data jpa(jpql) docs
   @Query("SELECT p FROM Student p WHERE :matkul MEMBER OF p.matakuliah")
   List<Student> findStudetByMatakuliah(@Param("matkul") Matakuliah matakuliah);
 }

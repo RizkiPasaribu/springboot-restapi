@@ -6,9 +6,11 @@ import java.util.Set;
 import com.example.demo.model.Dosenpem;
 import com.example.demo.model.Matakuliah;
 import com.example.demo.model.Student;
+import com.example.demo.model.Users;
 import com.example.demo.repos.DosenpemRepository;
 import com.example.demo.repos.MatakuliahRepository;
 import com.example.demo.repos.StudentRepository;
+import com.example.demo.repos.UsersRepository;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -18,8 +20,12 @@ import org.springframework.context.annotation.Configuration;
 public class LoadDatabase {
   
   @Bean
-  CommandLineRunner initDatabase (StudentRepository studentRepository, DosenpemRepository dosenpemRepository, MatakuliahRepository matakuliahRepository){
+  CommandLineRunner initDatabase (StudentRepository studentRepository, DosenpemRepository dosenpemRepository, MatakuliahRepository matakuliahRepository, UsersRepository usersRepository){
     return args->{
+      
+      usersRepository.save(new Users("rizki","rizki", "ADMIN"));
+      usersRepository.save(new Users("rizki1","rizki1", "USER"));
+
       Matakuliah matakuliah = new Matakuliah("Artifcial Intelegen");
       matakuliahRepository.save(matakuliah);
 
