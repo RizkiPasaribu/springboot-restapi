@@ -5,6 +5,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import net.minidev.json.annotate.JsonIgnore;
+
+
 @Entity
 @Table(name = "tbl_users")
 public class Users {
@@ -12,6 +15,8 @@ public class Users {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String username;
+  
+  @JsonIgnore
   private String password;
   private String roles;
 

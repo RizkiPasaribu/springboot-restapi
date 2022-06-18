@@ -6,6 +6,6 @@ public class CostomException extends RuntimeException{
   }
 
   public CostomException(String message) {
-    super("Email Taken");
+    super(message);
   }
 }

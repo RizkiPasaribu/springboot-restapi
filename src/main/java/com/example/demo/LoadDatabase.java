@@ -12,19 +12,23 @@ import com.example.demo.repos.MatakuliahRepository;
 import com.example.demo.repos.StudentRepository;
 import com.example.demo.repos.UsersRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class LoadDatabase {
-  
+  @Autowired
+  private PasswordEncoder encoder;
+
   @Bean
   CommandLineRunner initDatabase (StudentRepository studentRepository, DosenpemRepository dosenpemRepository, MatakuliahRepository matakuliahRepository, UsersRepository usersRepository){
     return args->{
       
-      usersRepository.save(new Users("rizki","rizki", "ADMIN"));
-      usersRepository.save(new Users("rizki1","rizki1", "USER"));
+      usersRepository.save(new Users("rizki",encoder.encode("rizki"), "ADMIN"));
+      usersRepository.save(new Users("rizki1",encoder.encode("rizki1"), "USER"));
 
       Matakuliah matakuliah = new Matakuliah("Artifcial Intelegen");
       matakuliahRepository.save(matakuliah);
